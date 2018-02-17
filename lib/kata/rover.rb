@@ -27,6 +27,8 @@ module Kata
           move_forward
         when BACKWARD
           move_backward
+        when LEFT
+          turn_left
         end
       end
     end
@@ -62,6 +64,13 @@ module Kata
         position.x += 1
       when :east
         position.x -= 1
+      end
+    end
+
+    def turn_left
+      case position.heading
+      when :north
+        position.heading = :west
       end
     end
   end
