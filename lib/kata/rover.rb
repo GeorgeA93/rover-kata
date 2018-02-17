@@ -25,6 +25,8 @@ module Kata
         case command
         when FORWARD
           move_forward
+        when BACKWARD
+          move_backward
         end
       end
     end
@@ -41,6 +43,13 @@ module Kata
       case position.heading
       when :north
         position.y += 1
+      end
+    end
+
+    def move_backward
+      case position.heading
+      when :north
+        position.y -= 1
       end
     end
   end

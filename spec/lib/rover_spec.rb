@@ -35,5 +35,20 @@ RSpec.describe Kata::Rover do
         expect { run }.to change { instance.position.y }.by(1)
       end
     end
+
+    context "when moving the rover backward" do
+      let(:command_sequence) { "B" }
+      context "when the rover is heading north" do
+        before do
+          allow(instance.position).
+            to_receive(:heading).
+            and_return(:north)
+        end
+      end
+
+      it "decrements y by 1" do
+        expect { run }.to change { instance.position.y }.by(-1)
+      end
+    end
   end
 end
