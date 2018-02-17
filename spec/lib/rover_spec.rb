@@ -137,5 +137,20 @@ RSpec.describe Kata::Rover do
         end
       end
     end
+
+    context "when the rover is turning right" do
+      let(:command_sequence) { "R" }
+
+      context "when the rover is heading north" do
+        before do
+          instance.position.heading = :north
+        end
+
+        it "faces the rover east" do
+          run
+          expect(instance.position.heading).to eq(:east)
+        end
+      end
+    end
   end
 end
