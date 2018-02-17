@@ -11,6 +11,11 @@ module Kata
       LEFT,
     ]
 
+    MIN_X = 0
+    MIN_Y = 0
+    MAX_X = 100
+    MAX_Y = 100
+
     Position = Struct.new(:x, :y, :heading)
 
     def initialize(x: 0, y: 0, heading: :north)
@@ -46,27 +51,32 @@ module Kata
     def move_forward
       case position.heading
       when :north
-        position.y += 1
+        move(0, 1)
       when :south
-        position.y -= 1
+        move(0, -1)
       when :west
-        position.x -= 1
+        move(-1, 0)
       when :east
-        position.x += 1
+        move(1, 0)
       end
     end
 
     def move_backward
       case position.heading
       when :north
-        position.y -= 1
+        move(0, -1)
       when :south
-        position.y += 1
+        move(0, 1)
       when :west
-        position.x += 1
+        move(1, 0)
       when :east
-        position.x -= 1
+        move(-1, 0)
       end
+    end
+
+    def move(x_amount, y_amount)
+      position.x += x_amount
+      position.y += y_amount
     end
 
     def turn_left
