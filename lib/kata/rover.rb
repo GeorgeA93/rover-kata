@@ -18,7 +18,7 @@ module Kata
 
     Position = Struct.new(:x, :y, :heading)
 
-    def initialize(x: 0, y: 0, heading: :north)
+    def initialize(x: 10, y: 10, heading: :north)
       @position = Position.new(x, y, heading)
     end
 
@@ -77,6 +77,18 @@ module Kata
     def move(x_amount, y_amount)
       position.x += x_amount
       position.y += y_amount
+
+      if position.x < MIN_X
+        position.x = MAX_X
+      elsif position.x > MAX_X
+        position.x = MIN_X
+      end
+
+      if position.y < MIN_Y
+        position.y = MAX_Y
+      elsif position.y > MAX_Y
+        position.y = MIN_Y
+      end
     end
 
     def turn_left

@@ -70,6 +70,58 @@ RSpec.describe Kata::Rover do
           expect { run }.to change { instance.position.x }.by(1)
         end
       end
+
+      context "when the rover is at the left edge" do
+        before do
+          instance.position.x = 0
+          instance.position.y = 10
+          instance.position.heading = :west
+        end
+
+        it "wraps the rover around to the right" do
+          run
+          expect(instance.position.x).to eq(100)
+        end
+      end
+
+      context "when the rover is at the bottom edge" do
+        before do
+          instance.position.x = 10
+          instance.position.y = 0
+          instance.position.heading = :south
+        end
+
+        it "wraps the rover around to the top" do
+          run
+          expect(instance.position.y).to eq(100)
+        end
+      end
+
+      context "when the rover is at the right edge" do
+        before do
+          instance.position.x = 100
+          instance.position.y = 0
+          instance.position.heading = :east
+        end
+
+        it "wraps the rover around to the left" do
+          run
+          expect(instance.position.x).to eq(0)
+        end
+      end
+
+      context "when the rover is at the top edge" do
+        before do
+          instance.position.x = 10
+          instance.position.y = 100
+          instance.position.heading = :north
+        end
+
+        it "wraps the rover around to the bottom" do
+          run
+          expect(instance.position.y).to eq(0)
+        end
+      end
     end
 
     context "when moving the rover backward" do
@@ -119,6 +171,58 @@ RSpec.describe Kata::Rover do
 
         it "increments y by 1" do
           expect { run }.to change { instance.position.x }.by(-1)
+        end
+      end
+
+      context "when the rover is at the left edge" do
+        before do
+          instance.position.x = 0
+          instance.position.y = 10
+          instance.position.heading = :east
+        end
+
+        it "wraps the rover around to the right" do
+          run
+          expect(instance.position.x).to eq(100)
+        end
+      end
+
+      context "when the rover is at the bottom edge" do
+        before do
+          instance.position.x = 10
+          instance.position.y = 0
+          instance.position.heading = :north
+        end
+
+        it "wraps the rover around to the top" do
+          run
+          expect(instance.position.y).to eq(100)
+        end
+      end
+
+      context "when the rover is at the right edge" do
+        before do
+          instance.position.x = 100
+          instance.position.y = 0
+          instance.position.heading = :west
+        end
+
+        it "wraps the rover around to the left" do
+          run
+          expect(instance.position.x).to eq(0)
+        end
+      end
+
+      context "when the rover is at the top edge" do
+        before do
+          instance.position.x = 10
+          instance.position.y = 100
+          instance.position.heading = :south
+        end
+
+        it "wraps the rover around to the bottom" do
+          run
+          expect(instance.position.y).to eq(0)
         end
       end
     end
