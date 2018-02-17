@@ -218,5 +218,22 @@ RSpec.describe Kata::Rover do
         end
       end
     end
+
+    context "with a long command sequence" do
+      let (:command_sequence) { "FFFRFFLFFBRFF" }
+
+      before do
+        instance.position.heading = :north
+        instance.position.x = 0
+        instance.position.y = 0
+      end
+
+      it "moves the rover to the right place" do
+        run
+        expect(instance.position.heading).to eq(:east)
+        expect(instance.position.x).to eq(4)
+        expect(instance.position.y).to eq(4)
+      end
+    end
   end
 end
