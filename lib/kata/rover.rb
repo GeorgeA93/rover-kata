@@ -73,6 +73,12 @@ module Kata
       case position.heading
       when :north
         position.heading = :west
+      when :south
+        position.heading = :east
+      when :west
+        position.heading = :south
+      when :east
+        position.heading = :north
       end
     end
 

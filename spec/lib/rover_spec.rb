@@ -136,6 +136,39 @@ RSpec.describe Kata::Rover do
           expect(instance.position.heading).to eq(:west)
         end
       end
+
+      context "when the rover is heading south" do
+        before do
+          instance.position.heading = :south
+        end
+
+        it "faces the rover east" do
+          run
+          expect(instance.position.heading).to eq(:east)
+        end
+      end
+
+      context "when the rover is heading west" do
+        before do
+          instance.position.heading = :west
+        end
+
+        it "faces the rover south" do
+          run
+          expect(instance.position.heading).to eq(:south)
+        end
+      end
+
+      context "when the rover is heading east" do
+        before do
+          instance.position.heading = :east
+        end
+
+        it "faces the rover north" do
+          run
+          expect(instance.position.heading).to eq(:north)
+        end
+      end
     end
 
     context "when the rover is turning right" do
