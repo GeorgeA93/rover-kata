@@ -20,5 +20,20 @@ RSpec.describe Kata::Rover do
         expect { run }.to raise_error(/V is not a valid command/)
       end
     end
+
+    context "when moving the rover forward" do
+      let(:command_sequence) { "F" }
+      context "when the rover is heading north" do
+        before do
+          allow(instance.position).
+            to_receive(:heading).
+            and_return(:north)
+        end
+      end
+
+      it "increments y by 1" do
+        expect { run }.to change { instance.position.y }.by(1)
+      end
+    end
   end
 end
