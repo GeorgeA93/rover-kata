@@ -43,6 +43,12 @@ module Kata
       case position.heading
       when :north
         position.y += 1
+      when :south
+        position.y -= 1
+      when :west
+        position.x -= 1
+      when :east
+        position.x += 1
       end
     end
 
@@ -50,6 +56,12 @@ module Kata
       case position.heading
       when :north
         position.y -= 1
+      when :south
+        position.y += 1
+      when :west
+        position.x += 1
+      when :east
+        position.x -= 1
       end
     end
   end

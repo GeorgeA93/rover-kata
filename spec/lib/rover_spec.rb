@@ -7,7 +7,7 @@ RSpec.describe Kata::Rover do
     subject(:run) { instance.run(command_sequence) }
     context "with a valid command sequence" do
       let(:command_sequence) { "FBLR" }
-      
+
       it "doesn't raise and exception" do
         expect { run }.not_to raise_error
       end
@@ -26,13 +26,49 @@ RSpec.describe Kata::Rover do
       context "when the rover is heading north" do
         before do
           allow(instance.position).
-            to_receive(:heading).
+            to receive(:heading).
             and_return(:north)
+        end
+
+        it "increments y by 1" do
+          expect { run }.to change { instance.position.y }.by(1)
         end
       end
 
-      it "increments y by 1" do
-        expect { run }.to change { instance.position.y }.by(1)
+      context "when the rover is heading south" do
+        before do
+          allow(instance.position).
+            to receive(:heading).
+            and_return(:south)
+        end
+
+        it "increments y by 1" do
+          expect { run }.to change { instance.position.y }.by(-1)
+        end
+      end
+
+      context "when the rover is heading west" do
+        before do
+          allow(instance.position).
+            to receive(:heading).
+            and_return(:west)
+        end
+
+        it "increments y by 1" do
+          expect { run }.to change { instance.position.x }.by(-1)
+        end
+      end
+
+      context "when the rover is heading east" do
+        before do
+          allow(instance.position).
+            to receive(:heading).
+            and_return(:east)
+        end
+
+        it "increments y by 1" do
+          expect { run }.to change { instance.position.x }.by(1)
+        end
       end
     end
 
@@ -41,13 +77,49 @@ RSpec.describe Kata::Rover do
       context "when the rover is heading north" do
         before do
           allow(instance.position).
-            to_receive(:heading).
+            to receive(:heading).
             and_return(:north)
+        end
+
+        it "decrements y by 1" do
+          expect { run }.to change { instance.position.y }.by(-1)
         end
       end
 
-      it "decrements y by 1" do
-        expect { run }.to change { instance.position.y }.by(-1)
+      context "when the rover is heading south" do
+        before do
+          allow(instance.position).
+            to receive(:heading).
+            and_return(:south)
+        end
+
+        it "increments y by 1" do
+          expect { run }.to change { instance.position.y }.by(1)
+        end
+      end
+
+      context "when the rover is heading west" do
+        before do
+          allow(instance.position).
+            to receive(:heading).
+            and_return(:west)
+        end
+
+        it "increments y by 1" do
+          expect { run }.to change { instance.position.x }.by(1)
+        end
+      end
+
+      context "when the rover is heading east" do
+        before do
+          allow(instance.position).
+            to receive(:heading).
+            and_return(:east)
+        end
+
+        it "increments y by 1" do
+          expect { run }.to change { instance.position.x }.by(-1)
+        end
       end
     end
   end
