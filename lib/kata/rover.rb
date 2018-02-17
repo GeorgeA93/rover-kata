@@ -17,30 +17,42 @@ module Kata
     MAX_Y = 100
 
     Position = Struct.new(:x, :y, :heading)
+    Obstacle = Struct.new(:x, :y)
+    Result = Struct.new(:type, :data)
 
-    def initialize(x: 10, y: 10, heading: :north)
+    DEFAULT_OBSTACLES = [Obstacle.new(25, 25)]
+
+    def initialize(x: 10, y: 10, heading: :north, obstacles: DEFAULT_OBSTACLES)
       @position = Position.new(x, y, heading)
+      @obstacles = obstacles
     end
 
     def run(command_sequence)
       commands = command_sequence.split("")
       commands.each do |command|
-        raise "#{command} is not a valid command" unless valid_command?(command)
+        return Result.new(:invalid_command, command) unless valid_command?(command)
 
-        case command
-        when FORWARD
-          move_forward
-        when BACKWARD
-          move_backward
-        when LEFT
-          turn_left
-        when RIGHT
-          turn_right
+        result = case command
+                 when FORWARD
+                   move_forward
+                 when BACKWARD
+                   move_backward
+                 when LEFT
+                   turn_left
+                 when RIGHT
+                   turn_right
+                 end
+        next if result.nil? 
+
+        case result.type
+        when :collision
+          return result
         end
       end
+      Result.new(:success)
     end
 
-    attr_reader :position
+    attr_reader :position, :obstacles
 
     private
 
@@ -75,6 +87,14 @@ module Kata
     end
 
     def move(x_amount, y_amount)
+      collisions = obstacles_at(
+        position.x + x_amount,
+        position.y + y_amount,
+      )
+      if collisions.any?
+        return Result.new(:collision, collisions.first)
+      end
+
       position.x += x_amount
       position.y += y_amount
 
@@ -89,6 +109,14 @@ module Kata
       elsif position.y > MAX_Y
         position.y = MIN_Y
       end
+      nil
+    end
+
+    def obstacles_at(x, y)
+      obstacles.select do |obstacle|
+        obstacle.x == x &&
+          obstacle.y == y
+      end
     end
 
     def turn_left
@@ -102,6 +130,7 @@ module Kata
       when :east
         position.heading = :north
       end
+      nil
     end
 
     def turn_right
@@ -115,6 +144,7 @@ module Kata
       when :east
         position.heading = :south
       end
+      nil
     end
   end
 end

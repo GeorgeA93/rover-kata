@@ -7,17 +7,21 @@ RSpec.describe Kata::Rover do
     subject(:run) { instance.run(command_sequence) }
     context "with a valid command sequence" do
       let(:command_sequence) { "FBLR" }
+      let(:result) { Kata::Rover::Result.new(:success) }
 
-      it "doesn't raise and exception" do
-        expect { run }.not_to raise_error
+      it "returns a success result" do
+        real_result = run
+        expect(real_result).to eq(result)
       end
     end
 
     context "with an invalid command command sequence" do
       let(:command_sequence) { "FBLV" }
+      let(:result) { Kata::Rover::Result.new(:invalid_command, "V") }
 
-      it "raises and exception" do
-        expect { run }.to raise_error(/V is not a valid command/)
+      it "returns an invalid command result" do
+        real_result = run
+        expect(real_result).to eq(result)
       end
     end
 
@@ -120,6 +124,21 @@ RSpec.describe Kata::Rover do
         it "wraps the rover around to the bottom" do
           run
           expect(instance.position.y).to eq(0)
+        end
+      end
+
+      context "when the rover is going to collide" do
+        let(:result) { Kata::Rover::Result.new(:collision, result_data) }
+        let(:result_data) { Kata::Rover::Obstacle.new(25, 25) }
+        before do
+          instance.position.x = 25
+          instance.position.y = 24
+          instance.position.heading = :north
+        end
+
+        it "reports the obstacle ahead" do
+          real_result = run
+          expect(real_result).to eq(result)
         end
       end
     end
